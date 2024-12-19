@@ -36,7 +36,7 @@ def claim_daily_reward(email, password):
     link = "https://kageherostudio.com/event/?event=daily"
 
     options = webdriver.ChromeOptions()
-    # options.add_argument('--headless')
+    options.add_argument('--headless')
     options.add_argument('--disable-gpu')
 
     try:
@@ -127,7 +127,7 @@ def claim_daily_reward(email, password):
         logging.info("Browser closed")
 
 if __name__ == "__main__":
-    email = os.getenv("email")
-    password = os.getenv("password")
+    email = os.getenv("MAIN_MAIL")
+    password = os.getenv("MAIL_PASS_NH")
     print(email, password)
     claim_daily_reward(email, password)
