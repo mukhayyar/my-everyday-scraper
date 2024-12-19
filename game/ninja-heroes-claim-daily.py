@@ -33,6 +33,7 @@ def wait_for_page_load(driver, timeout=30):
 
 def claim_daily_reward(email, password):
     logging.info("Starting daily claim process")
+    print("Starting daily claim process")
     link = "https://kageherostudio.com/event/?event=daily"
 
     options = webdriver.ChromeOptions()
@@ -44,6 +45,7 @@ def claim_daily_reward(email, password):
         driver = webdriver.Chrome(service=Service(), options=options)
         driver.get(link)
         logging.info("Accessed website successfully")
+        print("Accessed website successfully")
 
         tombol_login = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, '.btn-login'))
