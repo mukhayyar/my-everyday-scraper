@@ -57,6 +57,7 @@ def claim_daily_reward(email, password):
         )
         tombol_login.click()
         logging.info("Clicked login button")
+        print("Clicked login button")
 
         email_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.NAME, 'txtuserid'))
@@ -68,6 +69,7 @@ def claim_daily_reward(email, password):
         )
         driver.execute_script(f"document.getElementsByName('txtpassword')[0].value = '{password}'")
         logging.info("Filled login credentials")
+        print("Filled login credentials")
 
         tombol_submit_login = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'button#form-login-btnSubmit'))
@@ -76,6 +78,7 @@ def claim_daily_reward(email, password):
         tombol_submit_login.click()
         with wait_for_page_load(driver):
             logging.info("Submitted login form and waiting for refresh")
+            print("Submitted login form and waiting for refresh")
 
         time.sleep(5)  
 
@@ -85,6 +88,7 @@ def claim_daily_reward(email, password):
             )
             reward_claim.click()
             logging.info("Successfully clicked the daily reward!")
+            print("Successfully clicked the daily reward!")
             
 
             try:
@@ -92,10 +96,12 @@ def claim_daily_reward(email, password):
                     EC.element_to_be_clickable((By.XPATH, "//select/option[@value='3']"))
                 )
                 logging.info("Found the server option element using XPath")
+                print("Found the server option element using XPath")
 
                 # Click directly on the option
                 server_option.click()
                 logging.info("Clicked on the desired server option")
+                print("Clicked on the desired server option")
 
                 tombol_submit_server = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, '#form-server-btnSubmit'))
@@ -108,32 +114,40 @@ def claim_daily_reward(email, password):
                 alert = driver.switch_to.alert
                 alert_text = alert.text
                 logging.info(f"Alert detected with text: {alert_text}")
+                print(f"Alert detected with text: {alert_text}")
 
                 # Click OK in the alert
                 alert.accept()
                 logging.info("Accepted the alert")
+                print("Accepted the alert")
                 
                 with wait_for_page_load(driver):
                     logging.info("Submitted server selection and waiting for refresh")
+                    print("Submitted server selection and waiting for refresh")
 
                 logging.info("Successfully claimed the daily reward!")
+                print("Successfully claimed the daily reward!")
                 time.sleep(5)  
                 
             except TimeoutException:
                 logging.error("Failed to find server selection after login. Login might have failed.")
+                print("Failed to find server selection after login. Login might have failed.")
             
         except TimeoutException:
             logging.warning("Could not find reward button. The reward might have been already claimed or the event has ended.")
+            print("Could not find reward button. The reward might have been already claimed or the event has ended.")
             
             
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
+        print(f"An error occurred: {str(e)}")
 
     finally:
         time.sleep(5)
         if driver:
             driver.quit()
             logging.info("Browser closed")
+            print("Browser closed")
 
 if __name__ == "__main__":
     email = os.getenv("MAIN_MAIL")
