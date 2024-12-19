@@ -26,6 +26,6 @@ jobs:
 
     - name: Run Python script
       env: # Pass GitHub secrets to the script
-        email: ${{ secrets.MAIN_MAIL }}
-        password: ${{ secrets.MAIL_PASS_NH }}
+        MAIN_MAIL: ${{ secrets.MAIN_MAIL }}
+        MAIL_PASS_NH: ${{ secrets.MAIL_PASS_NH }}
       run: python game/ninja-heroes-claim-daily.py
