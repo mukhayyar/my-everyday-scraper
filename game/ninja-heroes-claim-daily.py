@@ -39,6 +39,7 @@ def claim_daily_reward(email, password):
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')
 
+    driver = None
     try:
         driver = webdriver.Chrome(service=Service(), options=options)
         driver.get(link)
@@ -123,8 +124,9 @@ def claim_daily_reward(email, password):
 
     finally:
         time.sleep(5)
-        driver.quit()
-        logging.info("Browser closed")
+        if driver:
+            driver.quit()
+            logging.info("Browser closed")
 
 if __name__ == "__main__":
     email = os.getenv("MAIN_MAIL")
