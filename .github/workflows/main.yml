@@ -1,0 +1,31 @@
+name: Run Python Script
+
+on:
+  workflow_dispatch: # Allows manual triggering of the workflow
+  schedule:
+    - cron: '15 17 * * *' # Runs daily at midnight UTC
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12.6' # Using Python 3.12.6
+
+    - name: Install dependencies in 'game' folder
+      run: |
+        cd game
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt || echo "No requirements file found"
+
+    - name: Run Python script
+      env: # Pass GitHub secrets to the script
+        email: ${{ secrets.MAIN_MAIL }}
+        password: ${{ secrets.MAIL_PASS_NH }}
+      run: python game/ninja-heroes-claim-daily.py
