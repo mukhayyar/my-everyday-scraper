@@ -41,7 +41,10 @@ jobs:
       env: # Pass GitHub secrets to the script
         MAIN_MAIL: ${{ secrets.MAIN_MAIL }}
         MAIL_PASS_NH: ${{ secrets.MAIL_PASS_NH }}
-      run: python game/ninja-heroes-claim-daily.py
+      run: |
+        export DISPLAY=:99
+        Xvfb :99 &  # Start Xvfb
+        python game/ninja-heroes-claim-daily.py
     
     - name: 'Debug: List all files in game directory'
       run: ls -la game/  

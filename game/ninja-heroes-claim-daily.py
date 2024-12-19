@@ -16,6 +16,10 @@ from selenium.webdriver.support.ui import Select
 load_dotenv()
 
 if 'GITHUB_WORKSPACE' in os.environ:
+    print("Running on GitHub Actions")
+    # Automatically install ChromeDriver
+    import chromedriver_autoinstaller
+    chromedriver_autoinstaller.install()
     log_file_path = os.path.join(os.getenv('GITHUB_WORKSPACE'), 'game', 'daily_claim.log')
 else:
     log_file_path = os.path.join(os.getcwd(), 'game', 'daily_claim.log')  # Local development path
