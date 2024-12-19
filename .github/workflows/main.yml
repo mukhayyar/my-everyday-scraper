@@ -44,6 +44,9 @@ jobs:
         MAIL_PASS_NH: ${{ secrets.MAIL_PASS_NH }}
       run: python game/ninja-heroes-claim-daily.py
     
+    - name: 'Debug: List all files in game directory'
+      run: ls -la game/  
+
     - name: Upload logs as artifact
       if: always() # Upload logs even if the script fails
       uses: actions/upload-artifact@v3
