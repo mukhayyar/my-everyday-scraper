@@ -15,6 +15,11 @@ from selenium.webdriver.support.ui import Select
 
 load_dotenv()
 
+if 'GITHUB_WORKSPACE' in os.environ:
+    log_file_path = os.path.join(os.getenv('GITHUB_WORKSPACE'), 'game', 'daily_claim.log')
+else:
+    log_file_path = os.path.join(os.getcwd(), 'game', 'daily_claim.log')  # Local development path
+
 # Setup logging
 logging.basicConfig(
     filename='daily_claim.log',
