@@ -1,4 +1,5 @@
-name: Run Python Script
+name: Run Daily Claim Ninja Heroes Script
+
 
 on:
   workflow_dispatch: # Allows manual triggering of the workflow
@@ -24,11 +25,28 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt || echo "No requirements file found"
 
+    - name: Install Chrome and ChromeDriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget unzip
+        sudo apt-get install -y google-chrome-stable
+        CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
+        wget -N https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
+        sudo mv chromedriver /usr/local/bin/
+        chmod +x /usr/local/bin/chromedriver
+        google-chrome --version
+        chromedriver --version    
+
     - name: Run Python script
       env: # Pass GitHub secrets to the script
         MAIN_MAIL: ${{ secrets.MAIN_MAIL }}
         MAIL_PASS_NH: ${{ secrets.MAIL_PASS_NH }}
       run: python game/ninja-heroes-claim-daily.py
     
-    - name: Read the log file
-      run: cat game/daily_claim.log
+    - name: Upload logs as artifact
+      if: always() # Upload logs even if the script fails
+      uses: actions/upload-artifact@v3
+      with:
+        name: daily-claim-log
+        path: game/daily_claim.log
