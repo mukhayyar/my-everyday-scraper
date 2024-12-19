@@ -29,3 +29,6 @@ jobs:
         MAIN_MAIL: ${{ secrets.MAIN_MAIL }}
         MAIL_PASS_NH: ${{ secrets.MAIL_PASS_NH }}
       run: python game/ninja-heroes-claim-daily.py
+    
+    - name: Read the log file
+      run: cat game/daily_claim.log
